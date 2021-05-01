@@ -30,6 +30,12 @@ namespace ParticleSwarm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.testBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,11 +57,17 @@ namespace ParticleSwarm
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.table = new System.Windows.Forms.DataGridView();
-            this.particleBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.animationChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.animationBtn = new System.Windows.Forms.Button();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.xrealDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fxDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.particleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.table)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animationChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.particleBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,7 +132,7 @@ namespace ParticleSwarm
             this.Tbox.Name = "Tbox";
             this.Tbox.Size = new System.Drawing.Size(100, 20);
             this.Tbox.TabIndex = 31;
-            this.Tbox.Text = "900";
+            this.Tbox.Text = "10";
             // 
             // dBox
             // 
@@ -152,6 +164,7 @@ namespace ParticleSwarm
             this.NBox.Name = "NBox";
             this.NBox.Size = new System.Drawing.Size(100, 20);
             this.NBox.TabIndex = 38;
+            this.NBox.Text = "10";
             // 
             // N
             // 
@@ -168,6 +181,7 @@ namespace ParticleSwarm
             this.C1Box.Name = "C1Box";
             this.C1Box.Size = new System.Drawing.Size(42, 20);
             this.C1Box.TabIndex = 40;
+            this.C1Box.Text = "1";
             // 
             // C2Box
             // 
@@ -175,6 +189,7 @@ namespace ParticleSwarm
             this.C2Box.Name = "C2Box";
             this.C2Box.Size = new System.Drawing.Size(34, 20);
             this.C2Box.TabIndex = 41;
+            this.C2Box.Text = "1,2";
             // 
             // C3Box
             // 
@@ -182,6 +197,7 @@ namespace ParticleSwarm
             this.C3Box.Name = "C3Box";
             this.C3Box.Size = new System.Drawing.Size(29, 20);
             this.C3Box.TabIndex = 42;
+            this.C3Box.Text = "1,4";
             // 
             // RSBox
             // 
@@ -189,6 +205,7 @@ namespace ParticleSwarm
             this.RSBox.Name = "RSBox";
             this.RSBox.Size = new System.Drawing.Size(100, 20);
             this.RSBox.TabIndex = 43;
+            this.RSBox.Text = "40";
             // 
             // lbab
             // 
@@ -237,15 +254,62 @@ namespace ParticleSwarm
             this.xrealDataGridViewTextBoxColumn,
             this.fxDataGridViewTextBoxColumn});
             this.table.DataSource = this.particleBindingSource;
-            this.table.Location = new System.Drawing.Point(15, 95);
+            this.table.Location = new System.Drawing.Point(8, 71);
             this.table.Name = "table";
             this.table.ReadOnly = true;
-            this.table.Size = new System.Drawing.Size(439, 60);
+            this.table.Size = new System.Drawing.Size(447, 61);
             this.table.TabIndex = 48;
             // 
-            // particleBindingSource
+            // label8
             // 
-            this.particleBindingSource.DataSource = typeof(ParticleSwarm.classes.Particle);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(500, 51);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(15, 13);
+            this.label8.TabIndex = 49;
+            this.label8.Text = "%";
+            // 
+            // chart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
+            this.chart.Location = new System.Drawing.Point(8, 149);
+            this.chart.Name = "chart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart.Series.Add(series1);
+            this.chart.Size = new System.Drawing.Size(1113, 473);
+            this.chart.TabIndex = 50;
+            this.chart.Text = "chart1";
+            // 
+            // animationChart
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.animationChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.animationChart.Legends.Add(legend2);
+            this.animationChart.Location = new System.Drawing.Point(3, 653);
+            this.animationChart.Name = "animationChart";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.animationChart.Series.Add(series2);
+            this.animationChart.Size = new System.Drawing.Size(1118, 96);
+            this.animationChart.TabIndex = 51;
+            this.animationChart.Text = "animationChart";
+            // 
+            // animationBtn
+            // 
+            this.animationBtn.Location = new System.Drawing.Point(632, 41);
+            this.animationBtn.Name = "animationBtn";
+            this.animationBtn.Size = new System.Drawing.Size(75, 23);
+            this.animationBtn.TabIndex = 52;
+            this.animationBtn.Text = "animacja";
+            this.animationBtn.UseVisualStyleBackColor = true;
+            this.animationBtn.Click += new System.EventHandler(this.animationBtn_Click);
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -268,11 +332,19 @@ namespace ParticleSwarm
             this.fxDataGridViewTextBoxColumn.Name = "fxDataGridViewTextBoxColumn";
             this.fxDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // particleBindingSource
+            // 
+            this.particleBindingSource.DataSource = typeof(ParticleSwarm.classes.Particle);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1138, 904);
+            this.Controls.Add(this.animationBtn);
+            this.Controls.Add(this.animationChart);
+            this.Controls.Add(this.chart);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.table);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -297,6 +369,8 @@ namespace ParticleSwarm
             this.Name = "Form1";
             this.Text = "Particle Swarm";
             ((System.ComponentModel.ISupportInitialize)(this.table)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animationChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.particleBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -330,6 +404,10 @@ namespace ParticleSwarm
         private System.Windows.Forms.DataGridViewTextBoxColumn xrealDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn fxDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource particleBindingSource;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart animationChart;
+        private System.Windows.Forms.Button animationBtn;
     }
 }
 

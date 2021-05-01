@@ -49,7 +49,7 @@ namespace ParticleSwarm.classes
             {
                 Particle particle = new Particle
                 {
-                    Id = 0,
+                    Id = i,
                     Xreal = generator.Next((int)(a / d), (int)(b / d)) * d
                 };
                 IntFromReal(particle, a, b, l);
@@ -59,21 +59,25 @@ namespace ParticleSwarm.classes
                 particle.Bg = particle.Clone();
                 particles.Add(particle);
             }
-            
             return particles;
         }
 
-        public static void CountDistance(List<Particle> particles, Particle particle)
+        public static List<Particle> TakeLocalParticles(List<Particle> particles, Particle particle, double RS)
         {
-            foreach (var p in particles)
+
+            List<Particle> localParticleList = new List<Particle>(particles);
+
+            foreach (var p in localParticleList)
             {
                 p.Distance = Math.Abs(p.Xreal - particle.Xreal);
             }
 
-            particles.Sort(delegate (Particle x, Particle y)
+            localParticleList.Sort(delegate (Particle x, Particle y)
             {
                 return y.Distance.CompareTo(x.Distance);
             });
+
+            return localParticleList.Take((int)RS).ToList();
         }
     }
 }
