@@ -8,33 +8,6 @@ namespace ParticleSwarm.classes
 {
     class PS
     {
-        //oblicz Int z Real
-        public static void IntFromReal(Particle particle, double a, double b, double l)
-        {
-            particle.Xint = (int)Math.Round(((1 / (b - a)) * (particle.Xreal - a) * (Math.Pow(2, l) - 1)));
-        }
-
-        //oblicz Int z Bit
-        public static void IntFromXbit(Particle particle)
-        {
-            particle.Xint = int.Parse(Convert.ToString(Convert.ToInt32(particle.Xbit + "", 2), 10));
-        }
-
-        public static void RealFromInt(Particle particle, double a, double b, double l, int round)
-        {
-            particle.Xreal = Math.Round(a + ((b - a) * particle.Xint) / (Math.Pow(2, l) - 1), round);
-        }
-
-        public static void BinFromInt(Particle particle, double l)
-        {
-            string bin = Convert.ToString(particle.Xint, 2);
-            for (int k = bin.Length; k < l; k++)
-            {
-                bin = "0" + bin;
-            }
-            particle.Xbit = bin;
-        }
-
         public static void CountFx(Particle particle)
         {
             double x = particle.Xreal;
@@ -52,8 +25,6 @@ namespace ParticleSwarm.classes
                     Id = i,
                     Xreal = generator.Next((int)(a / d), (int)(b / d)) * d
                 };
-                IntFromReal(particle, a, b, l);
-                BinFromInt(particle, l);
                 CountFx(particle);
                 particle.B = particle.Clone();
                 particle.Bg = particle.Clone();
@@ -72,12 +43,34 @@ namespace ParticleSwarm.classes
                 p.Distance = Math.Abs(p.Xreal - particle.Xreal);
             }
 
-            localParticleList.Sort(delegate (Particle x, Particle y)
-            {
-                return y.Distance.CompareTo(x.Distance);
-            });
+            localParticleList.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+           
+            localParticleList = localParticleList.Skip(1).Take((int)RS).ToList();
 
-            return localParticleList.Take((int)RS).ToList();
+            localParticleList.Sort((x, y) => y.Fx.CompareTo(x.Fx));
+        
+            return localParticleList;
+        }
+
+        public static void CountV (List<Particle> particles, Random generator, double c1, double c2, double c3, int round)
+        {
+            foreach (var particle in particles)
+            {
+                double r1 = generator.NextDouble();
+                double r2 = generator.NextDouble();
+                double r3 = generator.NextDouble();
+                particle.V = Math.Round(c1 * r1 * particle.V + c2 * r2 * (particle.B.Xreal - particle.Xreal) + c3 * r3 * (particle.Bg.Xreal - particle.Xreal), round);
+                if(particle.V + particle.Xreal > 11.999)
+                {
+                        particle.V = Math.Round(Math.Abs(particle.Xreal - 11.999), round);
+                    
+                }else if(particle.V + particle.Xreal < -4)
+                {
+                    particle.V = Math.Round(particle.Xreal + 4, round) * -1;
+                }
+                particle.Xreal = Math.Round(particle.Xreal + particle.V, round);
+                CountFx(particle);
+            }
         }
     }
 }

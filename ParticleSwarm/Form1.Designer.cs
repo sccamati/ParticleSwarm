@@ -57,18 +57,35 @@ namespace ParticleSwarm
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.table = new System.Windows.Forms.DataGridView();
-            this.label8 = new System.Windows.Forms.Label();
-            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.animationChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.animationBtn = new System.Windows.Forms.Button();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.xrealDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fxDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.particleBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.animationBtn = new System.Windows.Forms.Button();
+            this.animationChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.testPanel = new System.Windows.Forms.Panel();
+            this.testTable = new System.Windows.Forms.DataGridView();
+            this.c1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c3DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rSDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maxDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.avgDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.countBestDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.testClassBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.zad1Btn = new System.Windows.Forms.Button();
+            this.startTestBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.table)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.particleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animationChart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.particleBindingSource)).BeginInit();
+            this.testPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.testTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.testClassBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // testBtn
@@ -79,6 +96,7 @@ namespace ParticleSwarm
             this.testBtn.TabIndex = 37;
             this.testBtn.Text = "testy";
             this.testBtn.UseVisualStyleBackColor = true;
+            this.testBtn.Click += new System.EventHandler(this.testBtn_Click);
             // 
             // label5
             // 
@@ -132,7 +150,7 @@ namespace ParticleSwarm
             this.Tbox.Name = "Tbox";
             this.Tbox.Size = new System.Drawing.Size(100, 20);
             this.Tbox.TabIndex = 31;
-            this.Tbox.Text = "10";
+            this.Tbox.Text = "600";
             // 
             // dBox
             // 
@@ -164,7 +182,7 @@ namespace ParticleSwarm
             this.NBox.Name = "NBox";
             this.NBox.Size = new System.Drawing.Size(100, 20);
             this.NBox.TabIndex = 38;
-            this.NBox.Text = "10";
+            this.NBox.Text = "50";
             // 
             // N
             // 
@@ -189,7 +207,7 @@ namespace ParticleSwarm
             this.C2Box.Name = "C2Box";
             this.C2Box.Size = new System.Drawing.Size(34, 20);
             this.C2Box.TabIndex = 41;
-            this.C2Box.Text = "1,2";
+            this.C2Box.Text = "2";
             // 
             // C3Box
             // 
@@ -197,7 +215,7 @@ namespace ParticleSwarm
             this.C3Box.Name = "C3Box";
             this.C3Box.Size = new System.Drawing.Size(29, 20);
             this.C3Box.TabIndex = 42;
-            this.C3Box.Text = "1,4";
+            this.C3Box.Text = "2";
             // 
             // RSBox
             // 
@@ -205,7 +223,7 @@ namespace ParticleSwarm
             this.RSBox.Name = "RSBox";
             this.RSBox.Size = new System.Drawing.Size(100, 20);
             this.RSBox.TabIndex = 43;
-            this.RSBox.Text = "40";
+            this.RSBox.Text = "30";
             // 
             // lbab
             // 
@@ -260,57 +278,6 @@ namespace ParticleSwarm
             this.table.Size = new System.Drawing.Size(447, 61);
             this.table.TabIndex = 48;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(500, 51);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(15, 13);
-            this.label8.TabIndex = 49;
-            this.label8.Text = "%";
-            // 
-            // chart
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart.Legends.Add(legend1);
-            this.chart.Location = new System.Drawing.Point(8, 149);
-            this.chart.Name = "chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart.Series.Add(series1);
-            this.chart.Size = new System.Drawing.Size(1113, 473);
-            this.chart.TabIndex = 50;
-            this.chart.Text = "chart1";
-            // 
-            // animationChart
-            // 
-            chartArea2.Name = "ChartArea1";
-            this.animationChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.animationChart.Legends.Add(legend2);
-            this.animationChart.Location = new System.Drawing.Point(3, 653);
-            this.animationChart.Name = "animationChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.animationChart.Series.Add(series2);
-            this.animationChart.Size = new System.Drawing.Size(1118, 96);
-            this.animationChart.TabIndex = 51;
-            this.animationChart.Text = "animationChart";
-            // 
-            // animationBtn
-            // 
-            this.animationBtn.Location = new System.Drawing.Point(632, 41);
-            this.animationBtn.Name = "animationBtn";
-            this.animationBtn.Size = new System.Drawing.Size(75, 23);
-            this.animationBtn.TabIndex = 52;
-            this.animationBtn.Text = "animacja";
-            this.animationBtn.UseVisualStyleBackColor = true;
-            this.animationBtn.Click += new System.EventHandler(this.animationBtn_Click);
-            // 
             // idDataGridViewTextBoxColumn
             // 
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -336,13 +303,185 @@ namespace ParticleSwarm
             // 
             this.particleBindingSource.DataSource = typeof(ParticleSwarm.classes.Particle);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(500, 51);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(15, 13);
+            this.label8.TabIndex = 49;
+            this.label8.Text = "%";
+            // 
+            // chart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
+            this.chart.Location = new System.Drawing.Point(8, 149);
+            this.chart.Name = "chart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart.Series.Add(series1);
+            this.chart.Size = new System.Drawing.Size(1113, 473);
+            this.chart.TabIndex = 50;
+            this.chart.Text = "chart1";
+            // 
+            // animationBtn
+            // 
+            this.animationBtn.Location = new System.Drawing.Point(632, 41);
+            this.animationBtn.Name = "animationBtn";
+            this.animationBtn.Size = new System.Drawing.Size(75, 23);
+            this.animationBtn.TabIndex = 52;
+            this.animationBtn.Text = "animacja";
+            this.animationBtn.UseVisualStyleBackColor = true;
+            this.animationBtn.Click += new System.EventHandler(this.animationBtn_Click);
+            // 
+            // animationChart
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.animationChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.animationChart.Legends.Add(legend2);
+            this.animationChart.Location = new System.Drawing.Point(12, 628);
+            this.animationChart.Name = "animationChart";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.animationChart.Series.Add(series2);
+            this.animationChart.Size = new System.Drawing.Size(1109, 117);
+            this.animationChart.TabIndex = 53;
+            this.animationChart.Text = "chart1";
+            // 
+            // testPanel
+            // 
+            this.testPanel.Controls.Add(this.testTable);
+            this.testPanel.Controls.Add(this.zad1Btn);
+            this.testPanel.Controls.Add(this.startTestBtn);
+            this.testPanel.Location = new System.Drawing.Point(8, 5);
+            this.testPanel.Name = "testPanel";
+            this.testPanel.Size = new System.Drawing.Size(1125, 739);
+            this.testPanel.TabIndex = 54;
+            // 
+            // testTable
+            // 
+            this.testTable.AllowUserToAddRows = false;
+            this.testTable.AllowUserToDeleteRows = false;
+            this.testTable.AutoGenerateColumns = false;
+            this.testTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.testTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.c1DataGridViewTextBoxColumn,
+            this.c2DataGridViewTextBoxColumn,
+            this.c3DataGridViewTextBoxColumn,
+            this.tDataGridViewTextBoxColumn,
+            this.rSDataGridViewTextBoxColumn,
+            this.nDataGridViewTextBoxColumn,
+            this.maxDataGridViewTextBoxColumn,
+            this.avgDataGridViewTextBoxColumn,
+            this.countBestDataGridViewTextBoxColumn});
+            this.testTable.DataSource = this.testClassBindingSource;
+            this.testTable.Location = new System.Drawing.Point(23, 65);
+            this.testTable.Name = "testTable";
+            this.testTable.ReadOnly = true;
+            this.testTable.Size = new System.Drawing.Size(939, 447);
+            this.testTable.TabIndex = 2;
+            // 
+            // c1DataGridViewTextBoxColumn
+            // 
+            this.c1DataGridViewTextBoxColumn.DataPropertyName = "c1";
+            this.c1DataGridViewTextBoxColumn.HeaderText = "c1";
+            this.c1DataGridViewTextBoxColumn.Name = "c1DataGridViewTextBoxColumn";
+            this.c1DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // c2DataGridViewTextBoxColumn
+            // 
+            this.c2DataGridViewTextBoxColumn.DataPropertyName = "c2";
+            this.c2DataGridViewTextBoxColumn.HeaderText = "c2";
+            this.c2DataGridViewTextBoxColumn.Name = "c2DataGridViewTextBoxColumn";
+            this.c2DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // c3DataGridViewTextBoxColumn
+            // 
+            this.c3DataGridViewTextBoxColumn.DataPropertyName = "c3";
+            this.c3DataGridViewTextBoxColumn.HeaderText = "c3";
+            this.c3DataGridViewTextBoxColumn.Name = "c3DataGridViewTextBoxColumn";
+            this.c3DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // tDataGridViewTextBoxColumn
+            // 
+            this.tDataGridViewTextBoxColumn.DataPropertyName = "t";
+            this.tDataGridViewTextBoxColumn.HeaderText = "t";
+            this.tDataGridViewTextBoxColumn.Name = "tDataGridViewTextBoxColumn";
+            this.tDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // rSDataGridViewTextBoxColumn
+            // 
+            this.rSDataGridViewTextBoxColumn.DataPropertyName = "RS";
+            this.rSDataGridViewTextBoxColumn.HeaderText = "RS";
+            this.rSDataGridViewTextBoxColumn.Name = "rSDataGridViewTextBoxColumn";
+            this.rSDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nDataGridViewTextBoxColumn
+            // 
+            this.nDataGridViewTextBoxColumn.DataPropertyName = "n";
+            this.nDataGridViewTextBoxColumn.HeaderText = "n";
+            this.nDataGridViewTextBoxColumn.Name = "nDataGridViewTextBoxColumn";
+            this.nDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // maxDataGridViewTextBoxColumn
+            // 
+            this.maxDataGridViewTextBoxColumn.DataPropertyName = "Max";
+            this.maxDataGridViewTextBoxColumn.HeaderText = "Max";
+            this.maxDataGridViewTextBoxColumn.Name = "maxDataGridViewTextBoxColumn";
+            this.maxDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // avgDataGridViewTextBoxColumn
+            // 
+            this.avgDataGridViewTextBoxColumn.DataPropertyName = "Avg";
+            this.avgDataGridViewTextBoxColumn.HeaderText = "Avg";
+            this.avgDataGridViewTextBoxColumn.Name = "avgDataGridViewTextBoxColumn";
+            this.avgDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // countBestDataGridViewTextBoxColumn
+            // 
+            this.countBestDataGridViewTextBoxColumn.DataPropertyName = "CountBest";
+            this.countBestDataGridViewTextBoxColumn.HeaderText = "CountBest";
+            this.countBestDataGridViewTextBoxColumn.Name = "countBestDataGridViewTextBoxColumn";
+            this.countBestDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // testClassBindingSource
+            // 
+            this.testClassBindingSource.DataSource = typeof(ParticleSwarm.classes.TestClass);
+            // 
+            // zad1Btn
+            // 
+            this.zad1Btn.Location = new System.Drawing.Point(131, 19);
+            this.zad1Btn.Name = "zad1Btn";
+            this.zad1Btn.Size = new System.Drawing.Size(75, 23);
+            this.zad1Btn.TabIndex = 1;
+            this.zad1Btn.Text = "algorytm";
+            this.zad1Btn.UseVisualStyleBackColor = true;
+            this.zad1Btn.Click += new System.EventHandler(this.zad1Btn_Click);
+            // 
+            // startTestBtn
+            // 
+            this.startTestBtn.Location = new System.Drawing.Point(34, 19);
+            this.startTestBtn.Name = "startTestBtn";
+            this.startTestBtn.Size = new System.Drawing.Size(75, 23);
+            this.startTestBtn.TabIndex = 0;
+            this.startTestBtn.Text = "start";
+            this.startTestBtn.UseVisualStyleBackColor = true;
+            this.startTestBtn.Click += new System.EventHandler(this.startTestBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1138, 904);
-            this.Controls.Add(this.animationBtn);
+            this.ClientSize = new System.Drawing.Size(1145, 757);
+            this.Controls.Add(this.testPanel);
             this.Controls.Add(this.animationChart);
+            this.Controls.Add(this.animationBtn);
             this.Controls.Add(this.chart);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.table);
@@ -369,9 +508,12 @@ namespace ParticleSwarm
             this.Name = "Form1";
             this.Text = "Particle Swarm";
             ((System.ComponentModel.ISupportInitialize)(this.table)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.particleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.animationChart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.particleBindingSource)).EndInit();
+            this.testPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.testTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.testClassBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -406,8 +548,22 @@ namespace ParticleSwarm
         private System.Windows.Forms.BindingSource particleBindingSource;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
-        private System.Windows.Forms.DataVisualization.Charting.Chart animationChart;
         private System.Windows.Forms.Button animationBtn;
+        private System.Windows.Forms.DataVisualization.Charting.Chart animationChart;
+        private System.Windows.Forms.Panel testPanel;
+        private System.Windows.Forms.DataGridView testTable;
+        private System.Windows.Forms.Button zad1Btn;
+        private System.Windows.Forms.Button startTestBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c1DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c3DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rSDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maxDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn avgDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn countBestDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource testClassBindingSource;
     }
 }
 

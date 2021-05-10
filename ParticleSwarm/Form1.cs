@@ -16,9 +16,11 @@ namespace ParticleSwarm
     public partial class Form1 : Form
     {
         private List<List<Particle>> ParticlesIteration = new List<List<Particle>>();
+        Thread cpuThread;
         public Form1()
         {
             InitializeComponent();
+            testPanel.Visible = false;
         }
 
         private void startBtn_Click(object sender, EventArgs e)
@@ -33,7 +35,6 @@ namespace ParticleSwarm
             double c3 = Convert.ToDouble(C3Box.Text);
             double RS = Convert.ToDouble(RSBox.Text);
             double t = Convert.ToDouble(Tbox.Text);
-            double r1, r2, r3;
             RS = Math.Round((n * (RS / 100)), 1);
             Random generator = new Random();
             int round = 0;
@@ -52,8 +53,8 @@ namespace ParticleSwarm
             List<List<Particle>> iterationList = new List<List<Particle>>();
             List<Particle> particles = PS.MakeParticles(a, b, d, l, n, generator);
             iterationList.Add(particles.ConvertAll(p => p.Clone()));
-            Particle bg = particles.First().Clone();
             Particle Best = particles.First().Clone();
+            Particle localBgMax;
             do
             {
                 for (int j = 0; j < particles.Count; j++)
@@ -65,29 +66,30 @@ namespace ParticleSwarm
                     }
                     List<Particle> localParticles = PS.TakeLocalParticles(particles, particle, RS);
 
-                    var localMax = localParticles.Max(loc => loc.Bg.Fx);
-
-                    Particle localBgMax = localParticles.First();
+                    if (localParticles.First().Bg.Fx > particle.Bg.Fx)
+                    {
+                        localBgMax = localParticles.First().Clone();
+                        if (particle.Bg.Fx < localBgMax.Fx)
+                        {
+                            particle.Bg = localBgMax.Clone();
+                        }
+                    }
+                    else
+                    {
+                        localBgMax = particle.Bg.Clone();
+                    }
 
                     for (int i = 0; i < localParticles.Count; i++)
                     {
-                        if (localParticles[i].Bg.Fx < localBgMax.Bg.Fx)
+                        if (localParticles[i].Bg.Fx < localBgMax.Fx)
                         {
                             localParticles[i].Bg = localBgMax.Clone();
                         }
                     }
-                    if (particle.Bg.Fx < localBgMax.Bg.Fx)
-                    {
-                        particle.Bg = localBgMax.Clone();
-                    }
-
-                    r1 = generator.NextDouble();
-                    r2 = generator.NextDouble();
-                    r3 = generator.NextDouble();
-                    particle.V = c1 * r1 * particle.Xreal + c2 * r2 * (particle.B.Xreal - particle.Xreal) + c3 * r3 * (particle.Bg.Xreal - particle.Xreal);
-                    particle.Xreal += particle.V;
-                    PS.CountFx(particle);
                 }
+
+                PS.CountV(particles, generator, c1, c2, c3, round);
+
                 var max = particles.Max(p => p.Fx);
                 if (max > Best.Fx)
                 {
@@ -96,17 +98,18 @@ namespace ParticleSwarm
                 bestList.Add(Best.Fx);
                 avgList.Add(particles.Average(p => p.Fx));
                 minList.Add(particles.Min(p => p.Fx));
+
                 foreach (var particle1 in particles)
                 {
-                    foreach (var particle2 in particles)
+                    if (particles.All(p => Math.Abs(p.Xreal - particle1.Xreal) <= d))
                     {
-                        if (Math.Abs(particle1.Xreal - particle2.Xreal) <= d && particle1.Id != particle2.Id)
-                        {
-                            err = true;
-                            break;
-                        }
+                        err = true;
                     }
-                    if (err) break;
+                    else
+                    {
+                        err = false;
+                    }
+                    if (!err) break;
                 }
                 ParticlesIteration.Add(particles.ConvertAll(p => p.Clone()));
                 t--;
@@ -203,7 +206,7 @@ namespace ParticleSwarm
             ChartArea CA = animationChart.ChartAreas[0];
             CA.AxisX.ScaleView.Zoomable = true;
             chartMaker.AxisX.Minimum = -4;
-            chartMaker.AxisX.Maximum = 11;
+            chartMaker.AxisX.Maximum = 12;
             chartMaker.AxisX.Interval = 0.2;
             chartMaker.AxisY.Minimum = 0;
             if (animationChart.Series.Count == 1)
@@ -217,20 +220,179 @@ namespace ParticleSwarm
 
             animationChart.Series["Iter"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             animationChart.Series["Iter"].Color = Color.Blue;
-            animationChart.Series["Iter"].MarkerSize = 10;
-            new Thread(() =>
-            {
+            animationChart.Series["Iter"].MarkerSize = 5;
+            cpuThread = new Thread(new ThreadStart(drawChart));
+            cpuThread.Start();
 
-                foreach (var particles in ParticlesIteration)
+        }
+
+        private void drawChart()
+        {
+            foreach (var particles in ParticlesIteration)
+            {
+                Invoke((MethodInvoker)delegate { drawPoints(particles); });
+                Thread.Sleep(200);
+                animationChart.Series["Iter"].Points.Clear();
+            }
+
+        }
+
+        private void drawPoints(List<Particle> particles)
+        {
+            foreach (var particle in particles)
+            {
+                animationChart.Series["Iter"].Points.AddXY(particle.Xreal, 0);
+            }
+        }
+
+        private void startTestBtn_Click(object sender, EventArgs e)
+        {
+            ParticlesIteration.Clear();
+            double a = Convert.ToDouble(aBox.Text);
+            double b = Convert.ToDouble(bBox.Text);
+            double d = Convert.ToDouble(dBox.Text);
+            int n;
+
+            double RS = 0;
+            int count = 0;
+            Random generator = new Random();
+            int round = 0;
+
+            double pom = d;
+            double BestTest = 0;
+            int l = (int)Math.Ceiling(Math.Log(((b - a) * (1 / d)) + 1, 2));
+            while (pom < 1)
+            {
+                round++;
+                pom *= 10;
+            }
+            int t = 0;
+            List<TestClass> testList = new List<TestClass>();
+            List<Particle> testListMax = new List<Particle>();
+            List<double> testAvgList = new List<double>();
+            DateTime start = DateTime.Now;
+            double pomCounter = 0.5;
+            for (double c1 = 0.5; c1 <= 1; c1 += 0.5)
+            {
+                Console.WriteLine("siema lece  " + pomCounter + " czasik : " + (DateTime.Now - start));
+                pomCounter += 0.5;
+                for (double c2 = c1; c2 <= 2; c2 += 0.5)
                 {
-                    foreach (var particle in particles)
+                    for (double c3 = c2; c3 <= 2; c3 += 0.5)
                     {
-                        animationChart.Series["Iter"].Points.AddXY(particle.Xreal, 0);
+                        for (int iter = 100; iter <= 1000; iter += 100)
+                        {
+                            for (double RSi = 20; RSi < 60; RSi += 10)
+                            {
+                                for (n = 10; n <= 50; n += 10)
+                                {
+                                    RS = Math.Round((n * (RSi / 100)), 1);
+                                    count = 0;
+
+                                    for (int r = 0; r < 20; r++)
+                                    {
+                                        List<double> bestList = new List<double>();
+                                        List<double> avgList = new List<double>();
+                                        List<double> minList = new List<double>();
+                                        List<Particle> particles = PS.MakeParticles(a, b, d, l, n, generator);
+                                        Particle Best = particles.First().Clone();
+                                        Particle localBgMax;
+                                        t = iter;
+                                        do
+                                        {
+                                            for (int j = 0; j < particles.Count; j++)
+                                            {
+                                                Particle particle = particles[j];
+                                                if (particle.Fx > particle.B.Fx)
+                                                {
+                                                    particle.B = particle.Clone();
+                                                }
+                                                List<Particle> localParticles = PS.TakeLocalParticles(particles, particle, RS);
+
+                                                if (localParticles.First().Bg.Fx > particle.Bg.Fx)
+                                                {
+                                                    localBgMax = localParticles.First().Clone();
+                                                    if (particle.Bg.Fx < localBgMax.Fx)
+                                                    {
+                                                        particle.Bg = localBgMax.Clone();
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    localBgMax = particle.Bg.Clone();
+                                                }
+
+                                                for (int i = 0; i < localParticles.Count; i++)
+                                                {
+                                                    if (localParticles[i].Bg.Fx < localBgMax.Fx)
+                                                    {
+                                                        localParticles[i].Bg = localBgMax.Clone();
+                                                    }
+                                                }
+                                            }
+
+                                            PS.CountV(particles, generator, c1, c2, c3, round);
+
+                                            var max = particles.Max(p => p.Fx);
+                                            if (max > Best.Fx)
+                                            {
+                                                Best = particles.First(p => p.Fx == max).Clone();
+                                                BestTest = Best.Fx;
+                                            }
+                                            bestList.Add(Best.Fx);
+                                            avgList.Add(particles.Average(p => p.Fx));
+                                            minList.Add(particles.Min(p => p.Fx));
+
+                                            t--;
+                                        } while (t > 0);
+
+                                        if (Best.Xreal == 10.999)
+                                        {
+                                            count++;
+                                        }
+
+                                        testAvgList.Add(avgList.Average(avg => avg));
+                                        avgList.Clear();
+                                        minList.Clear();
+                                        bestList.Clear();
+                                    }
+                                    TestClass test = new TestClass
+                                    {
+                                        c1 = c1,
+                                        c2 = c2,
+                                        c3 = c3,
+                                        n = n,
+                                        t = iter,
+                                        RS = RSi,
+                                        CountBest = count,
+                                        Max = BestTest,
+                                        Avg = testAvgList.Average(avg => avg)
+                                    };
+                                    testList.Add(test);
+                                }
+                            }
+                        }
                     }
-                    Thread.Sleep(500);
-                    animationChart.Series["Iter"].Points.Clear();
                 }
-            }).Start();
+            }
+
+            testList.Sort((x, y) => y.Avg.CompareTo(x.Avg));
+            testList.Sort((x, y) => y.Max.CompareTo(x.Max));
+            testList.Sort((x, y) => y.CountBest.CompareTo(x.CountBest));
+
+            var bindingList = new BindingList<TestClass>(testList);
+            var source = new BindingSource(bindingList, null);
+            testTable.DataSource = source;
+        }
+
+        private void testBtn_Click(object sender, EventArgs e)
+        {
+            testPanel.Visible = true;
+        }
+
+        private void zad1Btn_Click(object sender, EventArgs e)
+        {
+            testPanel.Visible = false;
         }
     }
 }
